@@ -1,0 +1,13 @@
+﻿"Symbol";"Value";"Unit";
+"TraceParts.PartNumber";"10-24052019-098543";"";
+"REFERENCE";"XALD324";"";
+"TraceParts.ClassPath";"";"";
+"TraceParts.PartVersion";"1.0.0";"";
+"TraceParts.InstanceId";"10-24052019-0985439C0QI2FQVH17LJRVVAGR1DVVK";"";
+"TraceParts.PartLanguage";"en";"";
+"TraceParts.PartTitle";"Dark grey station - white flush/red flush/black flush pushbuttons Ø22";"";
+"SUPPLIER";"Schneider Electric";"";
+"DESIGN";"Dark grey station - white flush/red flush/black flush pushbuttons Ø22";"";
+"TRACEPARTS";"TRACEPARTS";"";
+"TraceParts.PartStatus";"Published";"";
+"TraceParts.PartStatusId";"";"";
