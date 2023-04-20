@@ -1,0 +1,3 @@
+https://supportportal.sick.com/all/?tag=PLOC2D
+
+https://support.mecademic.com/support/solutions/articles/64000257873-meca500-sick-ploc-2d-vision-system-integration-using-python-
