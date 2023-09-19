@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Symbolconfiguration xmlns="http://www.3s-software.com/schemas/Symbolconfiguration.xsd">
+  <Header>
+    <Version>3.5.14.0</Version>
+    <SymbolConfigObject version="3.5.16.30" runtimeid="3.5.16.70" libversion="3.5.16.0" compiler="3.5.16.70" lmm="3.5.16.0" profile="V20.2.8.0" settings="LayoutCalculator=OptimizedClientSideLayoutCalculator" />
+    <ProjectInfo name="Chocolat_box" devicename="Master_M251" appname="Application" />
+  </Header>
+  <TypeList>
+    <TypeSimple name="T_BIT_X_0" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="0" />
+    <TypeSimple name="T_BIT_X_1" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="1" />
+    <TypeSimple name="T_BIT_X_5" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="5" />
+    <TypeSimple name="T_REAL" size="4" swapsize="4" typeclass="Real" iecname="REAL" />
+  </TypeList>
+  <NodeList>
+    <Node name="Application">
+      <Node name="IoConfig_Globals_Mapping">
+        <Node name="PartPresent" type="T_BIT_X_5" access="Read" directaddress="%IX1.5" />
+        <Node name="xConveyorSTOP" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX2.0" />
+      </Node>
+      <Node name="Main_prg">
+        <Node name="rConvSpeed" type="T_REAL" access="ReadWrite" />
+        <Node name="xBtnIHM_StopConveyor" type="T_BIT_X_1" access="ReadWrite" directaddress="%MX0.1" />
+      </Node>
+    </Node>
+  </NodeList>
+</Symbolconfiguration>

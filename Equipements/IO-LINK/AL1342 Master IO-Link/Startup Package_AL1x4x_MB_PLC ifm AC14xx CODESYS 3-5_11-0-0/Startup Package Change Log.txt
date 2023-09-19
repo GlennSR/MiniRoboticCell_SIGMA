@@ -1,0 +1,45 @@
+06/2018
+AL1x4x setup package Changelog Rev 1
+1. Initial Starter Package for Modbus TCP IO-Link Masters AL1x4x
+
+06/2018
+AL1x4x setup package Changelog Rev 2
+1. Add: PLC ifm PDM360NG
+
+07/2018
+AL1x4x setup package Changelog Rev 3
+1. Add: PLC ifm SmartPLC AC14
+
+11/2018
+AL1x4x setup package Changelog Rev 4
+1. Add: PLC Siemens LOGO
+2. Add: PLC Mitsubishi
+
+12/2018
+AL1x4x setup package Changelog Rev 5
+1. Update: PLC Siemens LOGO
+
+04/2019
+AL1x4x setup package Changelog Rev 6
+1. Update: Manual
+
+08/2019
+AL1x4x setup package Changelog Rev 7
+1. Update: PLC Mitsubishi
+2. Add: PLC Allen Bradley ML1400
+
+09/2019
+AL1x4x setup package Changelog Rev 8
+1. Add: Kepware
+
+01/2020
+AL1x4x setup package Changelog Rev 9
+1. Update: PLC Siemens LOGO
+
+03/2020
+AL1x4x setup package Changelog Rev 10
+Add: PLC Allen Bradley MX850
+
+12/2020
+AL1x4x Startup Package Changelog V11.0.0
+- New Structure of Startup Package
