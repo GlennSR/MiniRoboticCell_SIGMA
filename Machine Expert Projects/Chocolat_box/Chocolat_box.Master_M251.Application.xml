@@ -10,13 +10,11 @@
     <TypeSimple name="T_BIT_X_1" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="1" />
     <TypeSimple name="T_BIT_X_5" size="1" swapsize="0" typeclass="Bool" iecname="BIT" bitoffset="5" />
     <TypeSimple name="T_REAL" size="4" swapsize="4" typeclass="Real" iecname="REAL" />
-    <TypeSimple name="T_WORD" size="2" swapsize="2" typeclass="Word" iecname="WORD" />
   </TypeList>
   <NodeList>
     <Node name="Application">
       <Node name="IoConfig_Globals_Mapping">
-        <Node name="Conveyor_Speed_r" type="T_WORD" access="Read" directaddress="%IW17" />
-        <Node name="PartPresent" type="T_BIT_X_5" access="Read" directaddress="%IX1.5" />
+        <Node name="PartPresent_2" type="T_BIT_X_5" access="Read" directaddress="%IX1.5" />
         <Node name="xConveyorSTOP" type="T_BIT_X_0" access="ReadWrite" directaddress="%QX2.0" />
       </Node>
       <Node name="Main_prg">
