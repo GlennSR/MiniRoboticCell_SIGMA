@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1712926194039
+Build-Jdk: 1.8.0_292
+Built-By: ur
+Bundle-Activator: com.sigmaclermont.lightUp.impl.Activator
+Bundle-Category: URCap
+Bundle-ContactAddress: 123 URCap Street
+Bundle-Copyright: Copyright notice (C)
+Bundle-Description: This is my first URCap called LightUp
+Bundle-LicenseType: License type
+Bundle-ManifestVersion: 2
+Bundle-Name: lightUp
+Bundle-SymbolicName: com.sigmaclermont.lightUp
+Bundle-Vendor: URCaps R us Inc.
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: com.ur.urcap.api.contribution;version="[1.9,2)",com.ur.u
+ rcap.api.contribution.program;version="[1.9,2)",com.ur.urcap.api.contri
+ bution.program.swing;version="[1.8,2)",com.ur.urcap.api.domain;version=
+ "[1.11,2)",com.ur.urcap.api.domain.data;version="[1.11,2)",com.ur.urcap
+ .api.domain.script;version="[1.8,2)",com.ur.urcap.api.domain.undoredo;v
+ ersion="[1.8,2)",javax.swing,javax.swing.event,org.osgi.framework;versi
+ on="[1.6,2)"
+Tool: Bnd-2.1.0.20130426-122213
+URCapCompatibility-CB3: false
+URCapCompatibility-eSeries: true
