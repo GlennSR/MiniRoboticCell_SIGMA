@@ -1,0 +1,75 @@
+
+    RZ=0
+    X=0
+    Y=0
+    c=" "
+    # 'i=16 because we skip the  "Run.LocateAll.Ok" part of the string'
+    i=16
+    global PartPosition = make_list(0,p[0,0,0,0,0,0],1000)
+    global Part_INFO = make_list(0,p[0,0,0,0,0,0],1000)
+    
+    okay=str_sub(results, i, 1)
+    if (okay == ","):
+   		global MultObj_STATUS = "Detection Ok"
+   		while (i<str_len(results)-1):
+	      c=str_sub(results, i, 1)
+	      i=i+1
+	      init=0
+	      if (c == ","):
+	        init=1
+	      end
+	      if (init == 1):
+	      	# 'Gets the total number of jobs detected'
+            j=i
+            c1 =str_sub(results, j, 1)
+            while (c1 != ","):
+              if (c1 != ""):
+                j=j+1
+                c1 =str_sub(results, j, 1)
+              end
+            end
+            global JOBS_FOUND = to_num(str_sub(results, i, j-i))
+            
+	        while (c != ""):
+	          count_virg=0
+	          while (count_virg<11  and  c != ""):
+	            c=str_sub(results, i, 1)
+	            i=i+1
+	            if (c == ","):
+	              c=str_sub(results, i, 1)
+	              count_virg=count_virg+1
+	              pos_begin=i
+	              j=i
+	              while (c != ","  and  c != ""):
+	                if (c != ""):
+	                  j=j+1
+	                  c=str_sub(results, j, 1)
+	                end
+	              end
+	              
+	              if (count_virg == 1):
+	              	match = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              else:
+	              	if (count_virg == 2):
+	              	  job = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              	else:
+	              	  if (count_virg == 10):
+	              	  	percentage = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              	  end
+	              	end
+	              end
+	              
+	              if (count_virg == 3):
+	                X=to_num(str_sub(results, pos_begin, j-pos_begin))/1000
+	              else:
+	                if (count_virg == 4):
+	                  Y=to_num(str_sub(results, pos_begin, j-pos_begin))/1000
+	                else:
+	                  if (count_virg == 8):
+	                    RZ=d2r(to_num(str_sub(results, pos_begin, j-pos_begin)))
+	                  end
+	                end
+	              end
+	            end
+	          end
+	         

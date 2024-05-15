@@ -7,7 +7,7 @@
 
 	<groupId>com.sigmaclermont</groupId>
 	<artifactId>ploc2dMultObjDetect</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>ploc2dMultObjDetect</name>
 	<packaging>bundle</packaging>
 
@@ -23,7 +23,7 @@
 		<urcap.contactAddress>123 URCap Street</urcap.contactAddress>
 		<urcap.copyright>Copyright notice (C)</urcap.copyright>
 		<urcap.description>Personalized URCap built to do MultiObject detection using the SICK Ploc2D camera.
-		Built by Glênio (Vai Brasil!)</urcap.description>
+		Built by Glênio (Vai Brasil!) - Compatible with all versions of PLOC2D URCap</urcap.description>
 		<urcap.licenseType>License type</urcap.licenseType>
 		<urcap.compatibility.CB3>true</urcap.compatibility.CB3>
 		<urcap.compatibility.eSeries>true</urcap.compatibility.eSeries>
@@ -36,7 +36,7 @@
 		<urcap.install.password>morango</urcap.install.password>
 
 		<!--Install path for the UR Sim-->
-		<ursim.home>/home/ur/ursim/ursim-5.11.0.108249/</ursim.home>
+		<ursim.home>/home/ur/ursim/ursim-5.16.0.127960</ursim.home>
 
 		<!--Host and standard user/password for UR Sim running in a VM-->
 		<ursimvm.install.host></ursimvm.install.host>

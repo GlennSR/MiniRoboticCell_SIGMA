@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.sigmaclermont.ploc2dMultObjDetect.impl.AppTest" time="0.064" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.sigmaclermont.ploc2dMultObjDetect.impl.AppTest" time="0.053" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="gnome"/>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
@@ -17,7 +17,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /home/ur/workspace/com.sigmaclermont.ploc2dMultObjDetect/target/surefire 2024-04-22T07-19-26_192-jvmRun1 surefire2283748733827699001tmp surefire_08299600651919339943tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter /home/ur/workspace/com.sigmaclermont.ploc2dMultObjDetect/target/surefire 2024-05-14T07-38-30_466-jvmRun1 surefire7480756215300991166tmp surefire_09082384915771743568tmp"/>
     <property name="surefire.test.class.path" value="/home/ur/workspace/com.sigmaclermont.ploc2dMultObjDetect/target/test-classes:/home/ur/workspace/com.sigmaclermont.ploc2dMultObjDetect/target/classes:/home/ur/.m2/repository/org/osgi/org.osgi.core/4.3.0/org.osgi.core-4.3.0.jar:/home/ur/.m2/repository/com/ur/urcap/api/1.12.0/api-1.12.0.jar:/home/ur/.m2/repository/junit/junit/4.12/junit-4.12.jar:/home/ur/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/ur"/>
@@ -57,5 +57,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="testApp" classname="com.sigmaclermont.ploc2dMultObjDetect.impl.AppTest" time="0.015"/>
+  <testcase name="testApp" classname="com.sigmaclermont.ploc2dMultObjDetect.impl.AppTest" time="0.014"/>
 </testsuite>

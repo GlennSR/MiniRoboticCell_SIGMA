@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1713795567500
+Bnd-LastModified: 1715697511602
 Build-Jdk: 1.8.0_292
 Built-By: ur
 Bundle-Activator: com.sigmaclermont.ploc2dMultObjDetect.impl.Activator
@@ -7,21 +7,26 @@ Bundle-Category: URCap
 Bundle-ContactAddress: 123 URCap Street
 Bundle-Copyright: Copyright notice (C)
 Bundle-Description: Personalized URCap built to do MultiObject detection
-  using the SICK Ploc2D camera.Built by Glênio (Vai Brasil!)
+  using the SICK Ploc2D camera.Built by Glênio (Vai Brasil!) - Compatib
+ le with all versions of PLOC2D URCap
 Bundle-LicenseType: License type
 Bundle-ManifestVersion: 2
 Bundle-Name: ploc2dMultObjDetect
 Bundle-SymbolicName: com.sigmaclermont.ploc2dMultObjDetect
 Bundle-Vendor: Sigma Clermont
-Bundle-Version: 1.0.0.SNAPSHOT
+Bundle-Version: 1.0.0
 Created-By: Apache Maven Bundle Plugin
 Import-Package: com.ur.urcap.api.contribution;version="[1.9,2)",com.ur.u
  rcap.api.contribution.program;version="[1.9,2)",com.ur.urcap.api.contri
  bution.program.swing;version="[1.8,2)",com.ur.urcap.api.domain;version=
  "[1.10,2)",com.ur.urcap.api.domain.data;version="[1.10,2)",com.ur.urcap
  .api.domain.script;version="[1.8,2)",com.ur.urcap.api.domain.undoredo;v
- ersion="[1.8,2)",javax.swing,javax.swing.border,javax.swing.plaf.metal,
- org.osgi.framework;version="[1.6,2)"
+ ersion="[1.8,2)",com.ur.urcap.api.domain.userinteraction;version="[1.9,
+ 2)",com.ur.urcap.api.domain.userinteraction.keyboard;version="[1.8,2)",
+ com.ur.urcap.api.domain.util;version="[1.8,2)",com.ur.urcap.api.domain.
+ value;version="[1.9,2)",com.ur.urcap.api.domain.value.expression;versio
+ n="[1.8,2)",com.ur.urcap.api.domain.variable;version="[1.8,2)",javax.sw
+ ing,javax.swing.plaf.metal,org.osgi.framework;version="[1.6,2)"
 Tool: Bnd-2.1.0.20130426-122213
 URCapCompatibility-CB3: true
 URCapCompatibility-eSeries: true
