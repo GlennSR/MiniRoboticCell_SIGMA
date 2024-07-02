@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1715697511602
+Bnd-LastModified: 1716907902676
 Build-Jdk: 1.8.0_292
 Built-By: ur
 Bundle-Activator: com.sigmaclermont.ploc2dMultObjDetect.impl.Activator
@@ -20,13 +20,21 @@ Import-Package: com.ur.urcap.api.contribution;version="[1.9,2)",com.ur.u
  rcap.api.contribution.program;version="[1.9,2)",com.ur.urcap.api.contri
  bution.program.swing;version="[1.8,2)",com.ur.urcap.api.domain;version=
  "[1.10,2)",com.ur.urcap.api.domain.data;version="[1.10,2)",com.ur.urcap
- .api.domain.script;version="[1.8,2)",com.ur.urcap.api.domain.undoredo;v
- ersion="[1.8,2)",com.ur.urcap.api.domain.userinteraction;version="[1.9,
- 2)",com.ur.urcap.api.domain.userinteraction.keyboard;version="[1.8,2)",
- com.ur.urcap.api.domain.util;version="[1.8,2)",com.ur.urcap.api.domain.
- value;version="[1.9,2)",com.ur.urcap.api.domain.value.expression;versio
- n="[1.8,2)",com.ur.urcap.api.domain.variable;version="[1.8,2)",javax.sw
- ing,javax.swing.plaf.metal,org.osgi.framework;version="[1.6,2)"
+ .api.domain.program;version="[1.9,2)",com.ur.urcap.api.domain.program.n
+ odes;version="[1.9,2)",com.ur.urcap.api.domain.program.nodes.builtin;ve
+ rsion="[1.10,2)",com.ur.urcap.api.domain.program.nodes.builtin.configur
+ ations.movenode;version="[1.9,2)",com.ur.urcap.api.domain.program.nodes
+ .builtin.configurations.movenode.builder;version="[1.9,2)",com.ur.urcap
+ .api.domain.program.nodes.builtin.configurations.waypointnode;version="
+ [1.10,2)",com.ur.urcap.api.domain.program.structure;version="[1.10,2)",
+ com.ur.urcap.api.domain.script;version="[1.8,2)",com.ur.urcap.api.domai
+ n.undoredo;version="[1.8,2)",com.ur.urcap.api.domain.userinteraction;ve
+ rsion="[1.9,2)",com.ur.urcap.api.domain.userinteraction.keyboard;versio
+ n="[1.8,2)",com.ur.urcap.api.domain.util;version="[1.8,2)",com.ur.urcap
+ .api.domain.value;version="[1.9,2)",com.ur.urcap.api.domain.value.expre
+ ssion;version="[1.8,2)",com.ur.urcap.api.domain.variable;version="[1.8,
+ 2)",javax.swing,javax.swing.plaf.metal,org.osgi.framework;version="[1.6
+ ,2)"
 Tool: Bnd-2.1.0.20130426-122213
 URCapCompatibility-CB3: true
 URCapCompatibility-eSeries: true

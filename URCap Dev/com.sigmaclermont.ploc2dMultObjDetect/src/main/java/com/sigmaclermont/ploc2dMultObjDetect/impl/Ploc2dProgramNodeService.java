@@ -18,7 +18,7 @@ public class Ploc2dProgramNodeService implements SwingProgramNodeService<Ploc2dP
 
 	@Override
 	public void configureContribution(ContributionConfiguration configuration) {
-		configuration.setChildrenAllowed(false);
+		configuration.setChildrenAllowed(true);
 	}
 
 	@Override

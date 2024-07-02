@@ -39,6 +39,7 @@ import javax.swing.JList;
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
 import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardNumberInput;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 import com.ur.urcap.api.domain.variable.GlobalVariable;
 
@@ -48,6 +49,7 @@ public class Ploc2dProgramNodeView implements SwingProgramNodeView<Ploc2dProgram
 	private final ViewAPIProvider apiProvider;
 	private List<JCheckBox> checkBoxList = new ArrayList<JCheckBox>();
 	private JTextField ipFieldText = new JTextField();
+	private JTextField height = new JTextField();
 	private JLabel isConnected = new JLabel();
 	
 	public Ploc2dProgramNodeView(ViewAPIProvider apiProvider) {
@@ -67,33 +69,13 @@ public class Ploc2dProgramNodeView implements SwingProgramNodeView<Ploc2dProgram
 		panel.add(createSpacer(15));
 		panel.add(createDescription("Select the active Jobs:"));
 		panel.add(createJobsPanel(checkBoxList, provider));
-		
-		/*panel.add(createSpacer(5));
-		panel.add(createIOComboBox(ioComboBox, provider));
-		panel.add(createSpacer(20));
-		panel.add(createDescription("Select the duration of the Light Up:"));
-		panel.add(createSpacer(5));*/
 	}
-	
-	/*// Letting the Contribution set the list of items in the ComboBox
-	public void setIOComboBoxItems(Integer[] items) {
-		ioComboBox.removeAllItems();
-		ioComboBox.setModel(new DefaultComboBoxModel<Integer>(items));
-	}
-	
-	// Letting the Contribution set the actually selected item into the ComboBox
-	public void setIOComboBoxSelection(Integer item) {
-		ioComboBox.setSelectedItem(item);
-	}
-	
-	}*/
 	
 	private Box connectToCamera(final ContributionProvider<Ploc2dProgramNodeContribution> provider) {
 		Box box = Box.createHorizontalBox();
 		box.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JButton button = new JButton("Connect");
 		
-		//ipFieldText.setFocusable(false);
 		ipFieldText.setPreferredSize(new Dimension(250,50));
 		ipFieldText.setMaximumSize(ipFieldText.getPreferredSize());
 		
@@ -110,7 +92,7 @@ public class Ploc2dProgramNodeView implements SwingProgramNodeView<Ploc2dProgram
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				provider.get().openSocketConnection(14158);
-				GlobalVariable variable = provider.get().createGlobalVariable("1");
+				GlobalVariable variable = provider.get().createGlobalVariable("1", "0");
 				provider.get().setVariable(variable);
 			}
 		});
@@ -142,6 +124,10 @@ public class Ploc2dProgramNodeView implements SwingProgramNodeView<Ploc2dProgram
 	
 	public void setIpAddress(String value) {
 		ipFieldText.setText(value);
+	}
+	
+	public void setHeight(Integer value) {
+		height.setText(value.toString());
 	}
 	
 	public void setIOCheckBoxItems(Integer[] items) {
@@ -206,36 +192,30 @@ public class Ploc2dProgramNodeView implements SwingProgramNodeView<Ploc2dProgram
 			});
 		}
 		
-		box.add(scrollPane);
+		// Frame
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
 		
-		return box;
-	}
-	
-	/*private Box createIOComboBox(final JComboBox<Integer> combo,
-			final ContributionProvider<Ploc2dProgramNodeContribution> provider) {
-		Box box = Box.createHorizontalBox();
-		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+		height.setPreferredSize(new Dimension(200,40));
+		height.setMaximumSize(height.getPreferredSize());
 		
-		JLabel label = new JLabel(" digital_out ");
-		
-		combo.setPreferredSize(new Dimension(104,30));
-		combo.setMaximumSize(combo.getPreferredSize());
-		
-		combo.addItemListener(new ItemListener() {
-			
+		height.addMouseListener(new MouseAdapter() {
 			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					//provider.get().onOutputSelection((Integer) e.getItem());
-				}
+			public void mousePressed(MouseEvent e) {
+				KeyboardNumberInput<Integer> keyboardInput = provider.get().getKeyboardForHeight();
+				keyboardInput.show(height, provider.get().getCallbackForHeight());
 			}
 		});
 		
-		box.add(label);
-		box.add(combo);
+		panel2.add(new JLabel("Enter job height (mm):"));
+		panel2.add(height);
+		
+		box.add(scrollPane);
+		box.add(Box.createRigidArea(new Dimension(20, 0)));
+		box.add(panel2);
 		
 		return box;
-	}*/
+	}
 	
 	
 	private Component createSpacer(int height) {

@@ -5,8 +5,8 @@
     c=" "
     # 'i=16 because we skip the  "Run.LocateAll.Ok" part of the string'
     i=16
-    global PartPosition = make_list(0,p[0,0,0,0,0,0],1000)
-    global Part_INFO = make_list(0,p[0,0,0,0,0,0],1000)
+    # global PartPosition = make_list(0,p[0,0,0,0,0,0],1000)
+    global Part_INFO = make_list(0,struct(match=0,job=0,percentage=0,pose=p[0,0,0,0,0,0],prepick=p[0,0,0,0,0,0]),1000)
     
     okay=str_sub(results, i, 1)
     if (okay == ","):
@@ -48,13 +48,13 @@
 	              end
 	              
 	              if (count_virg == 1):
-	              	match = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              	m = to_num(str_sub(results, pos_begin, j-pos_begin))
 	              else:
 	              	if (count_virg == 2):
-	              	  job = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              	  jb = to_num(str_sub(results, pos_begin, j-pos_begin))
 	              	else:
 	              	  if (count_virg == 10):
-	              	  	percentage = to_num(str_sub(results, pos_begin, j-pos_begin))
+	              	  	pctg = to_num(str_sub(results, pos_begin, j-pos_begin))
 	              	  end
 	              	end
 	              end

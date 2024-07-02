@@ -19,18 +19,42 @@ import com.ur.urcap.api.contribution.ProgramNodeContribution;
 import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
 import com.ur.urcap.api.domain.ProgramAPI;
 import com.ur.urcap.api.domain.data.DataModel;
+import com.ur.urcap.api.domain.feature.Feature;
+import com.ur.urcap.api.domain.program.ProgramModel;
+import com.ur.urcap.api.domain.program.nodes.ProgramNodeFactory;
+import com.ur.urcap.api.domain.program.nodes.builtin.FolderNode;
+import com.ur.urcap.api.domain.program.nodes.builtin.MoveNode;
+import com.ur.urcap.api.domain.program.nodes.builtin.WaypointNode;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.movenode.MoveNodeConfig;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.movenode.builder.MoveJConfigBuilder;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.movenode.builder.MoveLConfigBuilder;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.movenode.builder.MoveNodeConfigBuilders;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.waypointnode.BlendParameters;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.waypointnode.WaypointMotionParameters;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.waypointnode.WaypointNodeConfig;
+import com.ur.urcap.api.domain.program.nodes.builtin.configurations.waypointnode.WaypointNodeConfigFactory;
+import com.ur.urcap.api.domain.program.structure.TreeNode;
+import com.ur.urcap.api.domain.program.structure.TreeStructureException;
 import com.ur.urcap.api.domain.script.ScriptWriter;
 import com.ur.urcap.api.domain.undoredo.UndoRedoManager;
 import com.ur.urcap.api.domain.undoredo.UndoableChanges;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardTextInput;
 import com.ur.urcap.api.domain.util.Filter;
+import com.ur.urcap.api.domain.value.Pose;
+import com.ur.urcap.api.domain.value.PoseFactory;
+import com.ur.urcap.api.domain.value.Position;
+import com.ur.urcap.api.domain.value.ValueFactoryProvider;
 import com.ur.urcap.api.domain.value.expression.InvalidExpressionException;
+import com.ur.urcap.api.domain.value.simple.Angle;
+import com.ur.urcap.api.domain.value.simple.Length;
 import com.ur.urcap.api.domain.variable.GlobalVariable;
 import com.ur.urcap.api.domain.variable.Variable;
 import com.ur.urcap.api.domain.variable.VariableException;
 import com.ur.urcap.api.domain.variable.VariableFactory;
+import com.ur.urcap.api.domain.variable.Variable.Type;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputCallback;
 import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardInputFactory;
+import com.ur.urcap.api.domain.userinteraction.keyboard.KeyboardNumberInput;
 
 public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 	
@@ -38,6 +62,7 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 	public static final String SELECTED_VAR = "1";
 	
 	private final String IP_ADDRESS = "IpAddress";
+	private final String HEIGHT = "Height";
 	private Socket socket;
 	private boolean isConnected = false;
 	private String imagePathChecked = "/home/ur//workspace/com.sigmaclermont.ploc2dMultObjDetect/src/main/resources/com/sigma/urcap/multiobjectscript/impl/checked.png";
@@ -54,6 +79,9 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 	private Set<Integer> selectedJobs = new HashSet<Integer>();
 	private int job_id;
 	private String RESULT = "";
+	private GlobalVariable prepick;
+	private GlobalVariable pick;
+	private GlobalVariable clear;
 	
 	public Ploc2dProgramNodeContribution(ProgramAPIProvider apiProvider, Ploc2dProgramNodeView view,
 			DataModel model) {
@@ -64,6 +92,11 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 		this.undoRedoManager = this.apiProvider.getProgramAPI().getUndoRedoManager();
 		this.keyboardInputFactory = apiProvider.getUserInterfaceAPI().getUserInteraction().getKeyboardInputFactory();
 		this.variableFactory = apiProvider.getProgramAPI().getVariableModel().getVariableFactory();
+		
+		// Create and initialize global variables
+		createVariables();
+		// Create children
+		createSubtree();
 	}
 	
 	public void onOutputCheck(final Integer job) {
@@ -89,6 +122,10 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 	
 	private String getIpAddress() {
 		return model.get(IP_ADDRESS, "");
+	}
+	
+	private Integer getHeight() {
+		return model.get(HEIGHT, 0);
 	}
 	
 	private String[] getConnection() {
@@ -120,6 +157,22 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 			}
 		};
 	}
+	
+	public KeyboardNumberInput<Integer> getKeyboardForHeight() {
+		KeyboardNumberInput<Integer> keyboard = keyboardInputFactory.createIntegerKeypadInput();
+		keyboard.setInitialValue(model.get(HEIGHT, 0));
+		return keyboard;
+	}
+	
+	public KeyboardInputCallback<Integer> getCallbackForHeight() {
+		return new KeyboardInputCallback<Integer>() {
+			@Override
+			public void onOk(Integer value) {
+				model.set(HEIGHT, value);
+				view.setHeight(value);
+			}
+		};
+	}
 
 	private Integer[] getOutputItems() {
 		Integer[] items = new Integer[64];
@@ -134,6 +187,7 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 		view.setIOCheckBoxItems(getOutputItems());
 		view.setIOCheckBoxSelection(selectedJobs);
 		view.setIpAddress(getIpAddress());
+		view.setHeight(getHeight());
 		view.setConnectionStatus(getConnection()[0], getConnection()[1]);
 	}
 
@@ -304,11 +358,21 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 
 	}
 	
-	// DELETE
-	public GlobalVariable createGlobalVariable(String variableName) {
+	public void createVariables() {
+		// Criação da variável de instalação do tipo pose
+		prepick = createGlobalVariable("Part_prepick", "p[0,0,0,0,0,0]");
+		pick = createGlobalVariable("Part_pick", "p[0,0,0,0,0,0]");
+		clear = createGlobalVariable("Part_clear", "p[0,0,0,0,0,0]");
+		
+		model.set("prepick", prepick);
+		model.set("pick", pick);
+		model.set("clear", clear);
+	}
+	
+	public GlobalVariable createGlobalVariable(String variableName, String expression) {
 		GlobalVariable variable = null;
 		try {
-			variable = variableFactory.createGlobalVariable(variableName, programAPI.getValueFactoryProvider().createExpressionBuilder().append("0").build());
+			variable = variableFactory.createGlobalVariable(variableName, programAPI.getValueFactoryProvider().createExpressionBuilder().append(expression).build());
 		} catch (VariableException e) {
 			e.printStackTrace();
 		} catch (InvalidExpressionException e) {
@@ -329,7 +393,7 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 	public Variable getSelectedVariable() {
 		return model.get(SELECTED_VAR, (Variable) null);
 	}
-	// DELETE
+	
 	public void setVariable(final Variable variable) {
 		programAPI.getUndoRedoManager().recordChanges(new UndoableChanges() {
 			@Override
@@ -344,27 +408,27 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 		
 		//socketCommunication(writer, 14158);
 		
-		//socketCommunicationURScript(writer, getIpAddress(), 14158);
-		//locateAll(writer);
-		
 		if (isConnected) {
 			socketCommunicationURScript(writer, getIpAddress(), 14158);
 		}
 		
 		locateAll(writer);
 		
-		
 		String[] script1 = readScriptFile("/com/sigma/urcap/" + ARTIFACTID + "/impl/Mult_obj_detection.script");
 		for (String str : script1) {
-			//str = str.replace("{jobs}", jobs.toString());
 			writer.appendLine(str);
 		}
 		
+		float correction;
+		if (getHeight()<0)
+			correction = 1;
+		else
+			correction = -1;
 		
-		
-		writer.appendLine("PosPart_i=p[X,Y,0,0,0,RZ]");
-		writer.appendLine("Part_INFO_i = p[match,job,percentage,0,0,0]");
-		writer.appendLine("PartPosition.append(PosPart_i)");
+		writer.appendLine("global Part_prepick=p[X,Y," + correction*0.05 + ",0,0,RZ]");
+		writer.appendLine("global Part_clear=Part_prepick");
+		writer.appendLine("global Part_pick=p[X,Y," + Float.parseFloat(getHeight().toString())/-1000.0 + ",0,0,RZ]");
+		writer.appendLine("global Part_INFO_i = struct(match=m,job=jb,percentage=pctg,pose=Part_pick,prepick=Part_prepick)");
 		writer.appendLine("Part_INFO.append(Part_INFO_i)");
 		
 		/*Variable variable = getSelectedVariable();
@@ -388,6 +452,112 @@ public class Ploc2dProgramNodeContribution implements ProgramNodeContribution{
 		}
 		
 		writer.appendLine("socket_close(socket_name=\"socket_0\")");
+		
+		writer.writeChildren();
+	}
+	
+	private void createSubtree() {
+		ProgramModel programModel = programAPI.getProgramModel();
+		ProgramNodeFactory nf = programModel.getProgramNodeFactory();
+		
+		try {
+			// Create parent node
+            TreeNode rootNode = programModel.getRootTreeNode(this);
+            
+            // Start Node
+            // Create folder and add to parent
+            FolderNode folderNode = nf.createFolderNode().setName("Start");
+            TreeNode childNode = rootNode.addChild(folderNode);
+            
+            // Create MoveJ node
+            MoveNode moveNode = nf.createMoveNodeNoTemplate();
+            
+            // Create "Start" waypoint
+            WaypointNode waypointNode = nf.createWaypointNode("Start");
+            
+            // Add waypoint to MoveJ node
+            TreeNode moveJTreeNode = childNode.addChild(moveNode);
+            moveJTreeNode.addChild(waypointNode);
+            
+            //////////////////////////////////////////////////////////////////////////
+            // Pre Pick Node
+            folderNode = nf.createFolderNode().setName("Approach");
+            childNode = rootNode.addChild(folderNode);
+            
+            // Create MoveJ node
+            moveNode = nf.createMoveNodeNoTemplate();
+            
+            // Create "PrePick" waypoint and set as variable point
+            waypointNode = nf.createWaypointNode("PrePick");
+            WaypointNodeConfigFactory waypointNodeConfigFactory = waypointNode.getConfigFactory();
+            BlendParameters blendParameters = waypointNodeConfigFactory.createSharedBlendParameters();
+    		WaypointMotionParameters motionParameters = waypointNodeConfigFactory.createSharedMotionParameters();
+            WaypointNodeConfig waypointNodeConfig = waypointNodeConfigFactory.createVariablePositionConfig(prepick, blendParameters, motionParameters);
+            waypointNode.setConfig(waypointNodeConfig);
+            
+            moveJTreeNode = childNode.addChild(moveNode);
+            moveJTreeNode.addChild(waypointNode);
+            
+			//////////////////////////////////////////////////////////////////////////
+			// PICK Node
+            folderNode = nf.createFolderNode().setName("Pick");
+            childNode = rootNode.addChild(folderNode);
+
+            // Create MoveL node
+            moveNode = nf.createMoveNodeNoTemplate();
+            MoveLConfigBuilder moveLConfigBuilder = moveNode.getConfigBuilders().createMoveLConfigBuilder();
+            moveNode.setConfig(moveLConfigBuilder.build());
+         
+            // Create "Pick" waypoint and set as variable point
+            waypointNode = nf.createWaypointNode("Pick");
+            waypointNodeConfigFactory = waypointNode.getConfigFactory();
+            blendParameters = waypointNodeConfigFactory.createSharedBlendParameters();
+    		motionParameters = waypointNodeConfigFactory.createSharedMotionParameters();
+            waypointNodeConfig = waypointNodeConfigFactory.createVariablePositionConfig(pick, blendParameters, motionParameters);
+            waypointNode.setConfig(waypointNodeConfig);
+            
+            moveJTreeNode = childNode.addChild(moveNode);
+            moveJTreeNode.addChild(waypointNode);
+
+			//////////////////////////////////////////////////////////////////////////
+			// Clear Node
+			folderNode = nf.createFolderNode().setName("Clear");
+			childNode = rootNode.addChild(folderNode);
+			
+			// Create MoveJ node
+            moveNode = nf.createMoveNodeNoTemplate();
+			
+			// Create "Clear" waypoint and set as variable point
+			waypointNode = nf.createWaypointNode("Clear");
+			waypointNodeConfigFactory = waypointNode.getConfigFactory();
+			blendParameters = waypointNodeConfigFactory.createSharedBlendParameters();
+			motionParameters = waypointNodeConfigFactory.createSharedMotionParameters();
+			waypointNodeConfig = waypointNodeConfigFactory.createVariablePositionConfig(clear, blendParameters, motionParameters);
+			waypointNode.setConfig(waypointNodeConfig);
+			
+			moveJTreeNode = childNode.addChild(moveNode);
+			moveJTreeNode.addChild(waypointNode);
+			
+			/////////////////////////////////////////////////////////////////////////
+			// Start Node
+            // Create folder and add to parent
+            folderNode = nf.createFolderNode().setName("Place");
+            childNode = rootNode.addChild(folderNode);
+            
+            // Create MoveJ node
+            moveNode = nf.createMoveNodeNoTemplate();
+            
+            // Create "Start" waypoint
+            waypointNode = nf.createWaypointNode("Place");
+            
+            // Add waypoint to MoveJ node
+            moveJTreeNode = childNode.addChild(moveNode);
+            moveJTreeNode.addChild(waypointNode);
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 }
